@@ -8,10 +8,13 @@ class Customtextfeild extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       maxLines: maxLines,
+
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
         hintText: hintText,
+
       ),
+      
     );
   }
 }
