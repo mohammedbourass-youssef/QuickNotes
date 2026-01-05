@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notepad_app/views/EditNoteView.dart';
 
 class Noteitem extends StatelessWidget {
   const Noteitem({
@@ -20,57 +21,65 @@ class Noteitem extends StatelessWidget {
   final Color fontColor;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      margin: const EdgeInsets.only(bottom: 8.0),
-      decoration: BoxDecoration(
-        color: primaryColor,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(
-            color: primaryColor.withOpacity(0.3),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListTile(
-            title: Text(
-              title,
-              style: TextStyle(
-                fontSize: 28.0,
-                fontWeight: FontWeight.bold,
-                color: fontColor,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Editnoteview()),
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16.0),
+        margin: const EdgeInsets.only(bottom: 8.0),
+        decoration: BoxDecoration(
+          color: primaryColor,
+          borderRadius: BorderRadius.circular(14),
+          boxShadow: [
+            BoxShadow(
+              color: primaryColor.withValues(alpha: 0.3),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListTile(
+              title: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 28.0,
+                  fontWeight: FontWeight.bold,
+                  color: fontColor,
+                ),
+              ),
+              trailing: IconButton(
+                onPressed: onPressed,
+                icon: Icon(Icons.delete, color: fontColor, size: 32),
               ),
             ),
-            trailing: IconButton(
-              onPressed: onPressed,
-              icon: Icon(Icons.delete, color: fontColor, size: 32),
-            ),
-          ),
-          ListTile(
-            subtitle: Text(
-              content,
-              style: TextStyle(
-                fontSize: 16.0,
-                color: fontColor.withValues(alpha: .9),
+            ListTile(
+              subtitle: Text(
+                content,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: fontColor.withValues(alpha: .9),
+                ),
               ),
             ),
-          ),
-          ListTile(
-            trailing: Text(
-              date,
-              style: TextStyle(
-                fontSize: 14.0,
-                color: fontColor.withValues(alpha: .8),
+            ListTile(
+              trailing: Text(
+                date,
+                style: TextStyle(
+                  fontSize: 14.0,
+                  color: fontColor.withValues(alpha: .8),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
