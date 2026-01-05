@@ -22,7 +22,7 @@ class Noteitem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16.0),
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      margin: const EdgeInsets.only(bottom: 8.0),
       decoration: BoxDecoration(
         color: primaryColor,
         borderRadius: BorderRadius.circular(14),
