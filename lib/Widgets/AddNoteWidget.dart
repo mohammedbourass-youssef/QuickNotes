@@ -1,69 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:notepad_app/Widgets/CustomButton.dart';
-import 'package:notepad_app/Widgets/CustomTextFeild.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notepad_app/Cubits/AddNotesCubit/AddNote_Cubit.dart';
+import 'package:notepad_app/Cubits/AddNotesCubit/AddNote_State.dart';
+import 'package:notepad_app/Widgets/AddNewNotesForm.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class Addnotewidget extends StatelessWidget {
   const Addnotewidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(16.0),
-      height: 420,
-      child: const SingleChildScrollView(child: AddNewNotesForm()),
-    );
-  }
-}
-
-class AddNewNotesForm extends StatefulWidget {
-  const AddNewNotesForm({super.key});
-
-  @override
-  State<AddNewNotesForm> createState() => _AddNewNotesFormState();
-}
-
-class _AddNewNotesFormState extends State<AddNewNotesForm> {
-  GlobalKey<FormState> formkey = GlobalKey<FormState>();
-
-  AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-  String title = "";
-  String content = "";
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: formkey,
-      autovalidateMode: autovalidateMode,
-      child: Column(
-        children: [
-          SizedBox(height: 30),
-          Customtextfeild(
-            hintText: "Title",
-            onSaved: (value) {
-              title = value!;
-            },
-          ),
-          SizedBox(height: 20),
-          Customtextfeild(
-            maxLines: 5,
-            hintText: "Content",
-            onSaved: (value) {
-              content = value!;
-            },
-          ),
-          SizedBox(height: 50),
-          Custombutton(
-            onTap: () {
-              if (formkey.currentState!.validate()) {
-                formkey.currentState!.save();
-                print("title $title");
-                print("content $content");
-              } else {
-                autovalidateMode = AutovalidateMode.always;
-                setState(() {});
-              }
-            },
-          ),
-        ],
+    return BlocProvider(
+      create: (context) => AddNoteCubit(),
+      child: BlocConsumer<AddNoteCubit, AddNoteState>(
+        listener: (context, state) {
+          if (state is AddNoteSuccess) {
+            Navigator.of(context).pop();
+          } else if (state is AddNoteFailure) {
+            Navigator.of(context).pop();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Error: ${state.errorMessage}')),
+            );
+            print('Error: ${state.errorMessage}');
+          }
+        },
+        builder: (context, state) {
+          return ModalProgressHUD(
+            inAsyncCall: state is AddNoteLoading,
+            child: Container(
+              padding: const EdgeInsets.all(16.0),
+              height: 420,
+              child: const SingleChildScrollView(child: AddNewNotesForm()),
+            ),
+          );
+        },
       ),
     );
   }
