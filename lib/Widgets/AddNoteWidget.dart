@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notepad_app/Cubits/AddNotesCubit/AddNote_Cubit.dart';
 import 'package:notepad_app/Cubits/AddNotesCubit/AddNote_State.dart';
 import 'package:notepad_app/Widgets/AddNewNotesForm.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+
 
 class Addnotewidget extends StatelessWidget {
   const Addnotewidget({super.key});
@@ -25,8 +25,8 @@ class Addnotewidget extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          return ModalProgressHUD(
-            inAsyncCall: state is AddNoteLoading,
+          return AbsorbPointer(
+            absorbing: state is AddNoteLoading ? true : false,
             child: Container(
               padding: const EdgeInsets.all(16.0),
               height: 420,
