@@ -24,6 +24,7 @@ class _NotesbodyState extends State<Notesbody> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Customappbar(
+              home: true,
               icon: IsLoading ? Icons.close : Icons.search,
               title: 'Notes',
               onPressed: () {

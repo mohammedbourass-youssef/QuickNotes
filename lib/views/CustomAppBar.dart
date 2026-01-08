@@ -7,10 +7,12 @@ class Customappbar extends StatelessWidget {
     required this.title,
     required this.icon,
     required this.onPressed,
+    this.home = false,
   });
   final String title;
   final IconData icon;
   final VoidCallback onPressed;
+  final bool home;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,13 +22,13 @@ class Customappbar extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-          CustomIconButton(onPressed: onPressed, icon: Icon(icon, size: 28)),
+          CustomIconButton(
+            home: home,
+            onPressed: onPressed,
+            icon: Icon(icon, size: 28),
+          ),
         ],
       ),
     );

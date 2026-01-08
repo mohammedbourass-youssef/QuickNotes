@@ -4,6 +4,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:notepad_app/Constants.dart';
 import 'package:notepad_app/Cubits/NotesCubit/Notes_Cubit.dart';
 import 'package:notepad_app/Cubits/SampleBlocObserver.dart';
+import 'package:notepad_app/Cubits/ThemeCubit/Theme_Cubit.dart';
+import 'package:notepad_app/Cubits/ThemeCubit/Theme_State.dart';
 import 'package:notepad_app/Models/NotesModal.dart';
 import 'package:notepad_app/views/HomePage.dart';
 
@@ -21,13 +23,25 @@ class notesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NotesCubit(),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Notes App',
-        theme: ThemeData(brightness: Brightness.dark, fontFamily: 'Poppins'),
-        home: const Homepage(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => NotesCubit()),
+        BlocProvider(create: (context) => ThemeCubit()),
+      ],
+      child: BlocBuilder<ThemeCubit, ThemeState>(
+        builder: (context, state) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Notes App',
+            theme: ThemeData(
+              brightness: state is ThemeDark
+                  ? Brightness.dark
+                  : Brightness.light,
+              fontFamily: 'Poppins',
+            ),
+            home: const Homepage(),
+          );
+        },
       ),
     );
   }
