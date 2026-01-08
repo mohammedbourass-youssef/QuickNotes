@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notepad_app/Cubits/AddNotesCubit/AddNote_Cubit.dart';
 import 'package:notepad_app/Cubits/AddNotesCubit/AddNote_State.dart';
 import 'package:notepad_app/Models/NotesModal.dart';
+import 'package:notepad_app/Widgets/ColorPicker.dart';
 import 'package:notepad_app/Widgets/CustomButton.dart';
 import 'package:notepad_app/Widgets/CustomTextFeild.dart';
 
@@ -19,6 +20,8 @@ class _AddNewNotesFormState extends State<AddNewNotesForm> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   String title = "";
   String content = "";
+  int color = Colors.blue.value;
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -26,6 +29,11 @@ class _AddNewNotesFormState extends State<AddNewNotesForm> {
       autovalidateMode: autovalidateMode,
       child: Column(
         children: [
+          Colorpicker(
+            onValueChanged: (value) {
+              color = value;
+            },
+          ),
           SizedBox(height: 30),
           Customtextfeild(
             hintText: "Title",
@@ -53,7 +61,7 @@ class _AddNewNotesFormState extends State<AddNewNotesForm> {
                       title: title!,
                       note: content!,
                       date: DateTime.now().toString(),
-                      color: Colors.blue.value,
+                      color: color,
                     );
                     BlocProvider.of<AddNoteCubit>(context).addNote(note);
                   } else {

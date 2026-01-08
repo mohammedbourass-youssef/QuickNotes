@@ -4,7 +4,6 @@ import 'package:notepad_app/Cubits/AddNotesCubit/AddNote_Cubit.dart';
 import 'package:notepad_app/Cubits/AddNotesCubit/AddNote_State.dart';
 import 'package:notepad_app/Widgets/AddNewNotesForm.dart';
 
-
 class Addnotewidget extends StatelessWidget {
   const Addnotewidget({super.key});
 
@@ -27,10 +26,15 @@ class Addnotewidget extends StatelessWidget {
         builder: (context, state) {
           return AbsorbPointer(
             absorbing: state is AddNoteLoading ? true : false,
-            child: Container(
-              padding: const EdgeInsets.all(16.0),
-              height: 420,
-              child: const SingleChildScrollView(child: AddNewNotesForm()),
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              child: Container(
+                padding: const EdgeInsets.all(16.0),
+                height: 420,
+                child: const SingleChildScrollView(child: AddNewNotesForm()),
+              ),
             ),
           );
         },
