@@ -1,17 +1,17 @@
 # QuickNotes 📝
 
-**QuickNotes** is a sleek, efficient, and user-friendly mobile application built with **Flutter**. It is designed to help users capture thoughts, organize tasks, and manage daily notes with ease. Whether you need to jot down a quick reminder or maintain a detailed list, QuickNotes provides a seamless experience across Android and iOS.
+**QuickNotes** is a high-performance, lightweight note-taking application built with **Flutter**. It leverages modern development patterns like **Bloc (Cubit)** for state management and **Hive** for lightning-fast local data persistence. The app features a clean UI with dynamic theme switching to provide a premium user experience.
 
 ---
 
 ## ✨ Features
 
-* **Quick Entry:** Create and save notes instantly with a minimalist interface.
-* **Organization:** Categorize your notes or use tags for easy retrieval (if applicable).
-* **Search Functionality:** Quickly find specific notes using a powerful search bar.
-* **Local Storage:** Your notes are stored securely on your device for offline access.
-* **Dark Mode Support:** Easy on the eyes with a built-in dark theme.
-* **Responsive Design:** Optimized for various screen sizes and orientations.
+* **Fast Persistence:** Powered by **Hive**, ensuring your notes are saved and loaded almost instantly.
+* **State Management:** Built using the **Cubit** pattern for predictable and clean state transitions.
+* **Dynamic Theming:** Smooth switching between Light and Dark modes managed via a dedicated Theme Cubit.
+* **Efficient CRUD:** Create, Read, Update, and Delete notes with real-time UI updates.
+* **Search & Filter:** Easily find your notes with a responsive search system.
+* **Clean Architecture:** Separated logic and UI for better maintainability and scalability.
 
 ---
 
@@ -19,20 +19,37 @@
 
 * **Framework:** [Flutter](https://flutter.dev/)
 * **Language:** [Dart](https://dart.dev/)
-* **State Management:** Provider / Bloc (Update based on your specific implementation)
-* **Database:** SQLite / Shared Preferences (Update based on your specific implementation)
+* **State Management:** [Bloc/Cubit](https://pub.dev/packages/flutter_bloc)
+* **Local Database:** [Hive](https://www.google.com/search?q=https://pub.dev/packages/hive) (NoSQL)
+* **Code Generation:** [Build Runner](https://pub.dev/packages/build_runner) (for Hive Adapters)
+
+---
+
+## 📂 Project Structure
+
+The project follows a modular structure to separate business logic from the UI:
+
+```text
+lib/
+├── cubits/          # Logic for Notes and Theme state
+│   ├── notes_cubit/
+│   └── theme_cubit/
+├── models/          # Hive TypeAdapters and Data Models
+├── views/           # UI Screens (Home, Add Note, etc.)
+├── widgets/         # Reusable UI components (NoteCard, CustomTextField)
+├── constants/       # App constants and theme data
+└── main.dart        # App entry & Hive initialization
+
+```
 
 ---
 
 ## 🚀 Getting Started
 
-To get a local copy up and running, follow these simple steps:
-
 ### Prerequisites
 
-* [Flutter SDK](https://docs.flutter.dev/get-started/install) installed on your machine.
+* [Flutter SDK](https://docs.flutter.dev/get-started/install)
 * [Dart SDK](https://www.google.com/search?q=https://dart.dev/get-started/sdk)
-* An IDE (VS Code, Android Studio, or IntelliJ)
 
 ### Installation
 
@@ -57,7 +74,15 @@ flutter pub get
 ```
 
 
-4. **Run the application:**
+4. **Generate Hive TypeAdapters:**
+If you have modified the models or are running for the first time, run the build runner:
+```bash
+flutter pub run build_runner build
+
+```
+
+
+5. **Run the application:**
 ```bash
 flutter run
 
@@ -67,50 +92,34 @@ flutter run
 
 ---
 
-## 📸 Screenshots
+## ⚙️ Logic & Implementation
 
-| Home Screen | Note Editor | Dark Mode |
-| --- | --- | --- |
-|  |  |  |
+### Local Storage (Hive)
 
-*(Note: Replace these placeholders with actual screenshots from your `assets/` folder)*
+We use **Hive** because it is a lightweight and blazing fast key-value database written in pure Dart. It is highly optimized for mobile devices and handles complex objects through TypeAdapters.
 
----
-
-## 📂 Project Structure
-
-```text
-lib/
-├── models/      # Data models
-├── screens/     # UI Pages (Home, Edit, Search)
-├── widgets/     # Reusable UI components
-├── services/    # Logic for database/storage
-└── main.dart    # Entry point of the app
+```dart
+// Initialization Example
+await Hive.initFlutter();
+Hive.registerAdapter(NoteModelAdapter());
+await Hive.openBox<NoteModel>('notes_box');
 
 ```
 
----
+### State Management (Cubit)
 
-## 🤝 Contributing
+The app uses **Cubit** to handle data flow and UI state:
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## 📄 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
+* **NotesCubit:** Manages the list of notes, including adding, editing, and deleting operations.
+* **ThemeCubit:** Persists and manages the brightness state (Light/Dark mode) globally.
 
 ---
 
 ## 👤 Contact
 
-**Mohammed Bourass Youssef** GitHub: [@mohammedbourass-youssef](https://www.google.com/search?q=https://github.com/mohammedbourass-youssef)
+**Mohammed Bourass Youssef** * **GitHub:** [@mohammedbourass-youssef](https://www.google.com/search?q=https://github.com/mohammedbourass-youssef)
 
-Project Link: [https://github.com/mohammedbourass-youssef/QuickNotes](https://github.com/mohammedbourass-youssef/QuickNotes)
+* **LinkedIn:** [Mohammed Bourass](https://www.linkedin.com/in/mohammed-bourass-39538a293/)
+* **Telegram:** [@mb0629](https://www.google.com/search?q=https://t.me/mb0629)
+
+---
