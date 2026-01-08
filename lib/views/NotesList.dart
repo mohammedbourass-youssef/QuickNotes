@@ -15,17 +15,17 @@ class Noteslist extends StatelessWidget {
       builder: (context, state) {
         List<Notesmodal> notes =
             BlocProvider.of<NotesCubit>(context).notesList ?? [];
+        if (notes.isEmpty) {
+          return Padding(
+            padding: const EdgeInsets.only(top: 100.0),
+            child: const Center(child: Text("No Notes")),
+          );
+        }
         return Expanded(
           child: ListView.builder(
             itemCount: notes.length,
             itemBuilder: (context, index) {
-              return Noteitem(
-                title: notes[index].title!,
-                content: notes[index].note!,
-                date: notes[index].date!,
-                primaryColor: Color(notes[index].color!),
-                fontColor: Colors.black,
-              );
+              return Noteitem(note: notes[index]);
             },
           ),
         );

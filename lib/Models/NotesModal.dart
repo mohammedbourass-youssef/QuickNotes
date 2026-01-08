@@ -9,9 +9,9 @@ class Notesmodal extends HiveObject{
   @HiveField(1)
   String? note;
   @HiveField(2)
-  String? date;
+  final String? date;
   @HiveField(3)
-  int? color;
+  final int? color;
 
   Notesmodal({this.title, this.note, this.date, this.color});
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notepad_app/Cubits/AddNotesCubit/AddNote_Cubit.dart';
 import 'package:notepad_app/Cubits/AddNotesCubit/AddNote_State.dart';
+import 'package:notepad_app/Cubits/NotesCubit/Notes_Cubit.dart';
 import 'package:notepad_app/Widgets/AddNewNotesForm.dart';
 
 class Addnotewidget extends StatelessWidget {
@@ -14,6 +15,7 @@ class Addnotewidget extends StatelessWidget {
       child: BlocConsumer<AddNoteCubit, AddNoteState>(
         listener: (context, state) {
           if (state is AddNoteSuccess) {
+            BlocProvider.of<NotesCubit>(context).GetAllNotes();
             Navigator.of(context).pop();
           } else if (state is AddNoteFailure) {
             Navigator.of(context).pop();

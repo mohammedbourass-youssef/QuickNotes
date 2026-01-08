@@ -6,6 +6,7 @@ import 'package:notepad_app/Models/NotesModal.dart';
 import 'package:notepad_app/Widgets/ColorPicker.dart';
 import 'package:notepad_app/Widgets/CustomButton.dart';
 import 'package:notepad_app/Widgets/CustomTextFeild.dart';
+import 'package:intl/intl.dart';
 
 class AddNewNotesForm extends StatefulWidget {
   const AddNewNotesForm({super.key});
@@ -20,7 +21,7 @@ class _AddNewNotesFormState extends State<AddNewNotesForm> {
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
   String title = "";
   String content = "";
-  int color = Colors.blue.value;
+  int color = Colors.red.value;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,7 @@ class _AddNewNotesFormState extends State<AddNewNotesForm> {
               content = value!;
             },
           ),
-          SizedBox(height: 50),
+          SizedBox(height: 30),
           BlocBuilder<AddNoteCubit, AddNoteState>(
             builder: (context, state) {
               return Custombutton(
@@ -57,10 +58,11 @@ class _AddNewNotesFormState extends State<AddNewNotesForm> {
                 onTap: () {
                   if (formkey.currentState!.validate()) {
                     formkey.currentState!.save();
+                    var formated = DateFormat.YEAR_ABBR_MONTH_DAY;
                     var note = Notesmodal(
-                      title: title!,
-                      note: content!,
-                      date: DateTime.now().toString(),
+                      title: title,
+                      note: content,
+                      date: DateFormat(formated).format(DateTime.now()),
                       color: color,
                     );
                     BlocProvider.of<AddNoteCubit>(context).addNote(note);

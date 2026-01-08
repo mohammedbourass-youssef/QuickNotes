@@ -7,11 +7,21 @@ import 'package:notepad_app/Models/NotesModal.dart';
 class NotesCubit extends Cubit<NotesState> {
   NotesCubit() : super(NotesInitial());
 
-  List<Notesmodal>? notesList;
+  List<Notesmodal> notesList = [];
 
   void GetAllNotes() {
     var box = Hive.box<Notesmodal>(kNotesBox);
-    notesList = box.values.toList();
+    notesList = box.values.toList().reversed.toList();
+    emit(NotesSuccess());
+  }
+
+  void searchNotes(String query) {
+    var box = Hive.box<Notesmodal>(kNotesBox);
+    notesList = box.values.toList().reversed.toList();
+    notesList = notesList.where((note) {
+      return note.title!.toLowerCase().contains(query.toLowerCase()) ||
+          note.note!.toLowerCase().contains(query.toLowerCase());
+    }).toList();
     emit(NotesSuccess());
   }
 }

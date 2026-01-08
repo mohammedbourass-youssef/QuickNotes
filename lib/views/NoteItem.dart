@@ -1,42 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notepad_app/Cubits/NotesCubit/Notes_Cubit.dart';
+import 'package:notepad_app/Models/NotesModal.dart';
 import 'package:notepad_app/views/EditNoteView.dart';
 
 class Noteitem extends StatelessWidget {
-  const Noteitem({
-    super.key,
-    required this.title,
-    required this.content,
-    required this.date,
-    required this.primaryColor,
-    required this.fontColor,
-    this.onDeletePressed,
-    this.onPressed,
-  });
-  final String title;
-  final String content;
-  final String date;
-  final VoidCallback? onDeletePressed;
-  final VoidCallback? onPressed;
-  final Color primaryColor;
-  final Color fontColor;
+  const Noteitem({super.key, required this.note});
+
+  final Notesmodal note;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Editnoteview()),
+          MaterialPageRoute(builder: (context) => Editnoteview(note: note)),
         );
       },
       child: Container(
         padding: const EdgeInsets.all(16.0),
         margin: const EdgeInsets.only(bottom: 8.0),
         decoration: BoxDecoration(
-          color: primaryColor,
+          color: Color(note.color!),
           borderRadius: BorderRadius.circular(14),
           boxShadow: [
             BoxShadow(
-              color: primaryColor.withValues(alpha: 0.3),
+              color: Color(note.color!).withValues(alpha: 0.3),
               spreadRadius: 2,
               blurRadius: 5,
               offset: const Offset(0, 3),
@@ -48,33 +38,36 @@ class Noteitem extends StatelessWidget {
           children: [
             ListTile(
               title: Text(
-                title,
+                note.title!,
                 style: TextStyle(
                   fontSize: 28.0,
                   fontWeight: FontWeight.bold,
-                  color: fontColor,
+                  color: Colors.black,
                 ),
               ),
               trailing: IconButton(
-                onPressed: onPressed,
-                icon: Icon(Icons.delete, color: fontColor, size: 32),
+                onPressed: () {
+                  note.delete();
+                  BlocProvider.of<NotesCubit>(context).GetAllNotes();
+                },
+                icon: Icon(Icons.delete, color: Colors.black, size: 32),
               ),
             ),
             ListTile(
               subtitle: Text(
-                content,
+                note.note!,
                 style: TextStyle(
                   fontSize: 16.0,
-                  color: fontColor.withValues(alpha: .9),
+                  color: Colors.black.withValues(alpha: .9),
                 ),
               ),
             ),
             ListTile(
               trailing: Text(
-                date,
+                note.date!,
                 style: TextStyle(
                   fontSize: 14.0,
-                  color: fontColor.withValues(alpha: .8),
+                  color: Colors.black.withValues(alpha: .8),
                 ),
               ),
             ),
